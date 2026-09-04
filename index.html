@@ -1,0 +1,644 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sua Jornada no Insider</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* Paleta e tipografia do padrão de painéis da Gestão Insider. */
+  :root{
+    --ink:#1E2342;
+    --ink-soft:#454B72;
+    --paper:#EEECE4;
+    --paper-card:#FAF9F5;
+    --line:#D8D4C8;
+    --stamp-red:#A23B2E;
+    --stamp-red-soft:#F1DCD8;
+    --stamp-amber:#B8862B;
+    --stamp-amber-soft:#F3E7CD;
+    --stamp-green:#2F6B4F;
+    --stamp-green-soft:#DCE9E0;
+    --stamp-gray:#8B8578;
+    --radius:10px;
+    --shadow:0 1px 2px rgba(30,42,58,0.06), 0 4px 12px rgba(30,42,58,0.05);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    font-size:16px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .wrap{max-width:860px;margin:0 auto;padding:26px 24px 70px}
+  @media(max-width:560px){.wrap{padding:18px 14px 50px}}
+
+  /* ---------- Cabeçalho ---------- */
+  .app-header{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  .brand-logo{height:34px;width:auto;display:block;flex-shrink:0}
+  .brand-title{font-family:'Fraunces',serif;font-weight:700;font-size:24px;letter-spacing:-0.01em;margin:0}
+
+  /* ---------- Linha de andamento ---------- */
+  .andamento{display:flex;align-items:baseline;justify-content:flex-end;gap:10px;
+    margin:0 2px 10px;font-size:12.5px;color:var(--ink-soft)}
+  .andamento .sub{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--stamp-gray)}
+
+  /* ---------- Cartão da pergunta ---------- */
+  .card{background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:32px 30px;box-shadow:var(--shadow)}
+  @media(max-width:560px){.card{padding:22px 17px}}
+
+  .foguete{display:inline-block;transform:rotate(45deg)}   /* foguete apontando para a direita */
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:29px;line-height:1.22;margin:0 0 16px;letter-spacing:-.01em}
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:23px;line-height:1.3;margin:0 0 6px;letter-spacing:-.01em;max-width:40ch}
+  .qnum{font-size:11px;font-weight:700;color:var(--stamp-amber);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px}
+  .help{color:var(--ink-soft);font-size:14.5px;margin:10px 0 0;max-width:66ch}
+  .lead{color:var(--ink-soft);font-size:16.5px;text-align:justify;text-justify:inter-word;hyphens:auto}
+  .lead p{margin:0 0 14px}
+  .lead strong{color:var(--ink);font-weight:600}
+
+  /* ---------- Opções ---------- */
+  .options{display:flex;flex-direction:column;gap:8px;margin-top:22px}
+  .options.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:stretch}
+  .options.grid .opt{height:100%}
+  .options.grid .opt[data-v="__other__"]{grid-column:2}
+  .options.grid .inline-other{grid-column:2;margin-left:0;max-width:none}
+  @media(max-width:620px){.options.grid{grid-template-columns:1fr}}
+  .opt{display:flex;align-items:flex-start;gap:11px;padding:11px 13px;border:1px solid var(--line);
+       border-radius:var(--radius);cursor:pointer;background:#fff;transition:border-color .12s,background .12s}
+  .opt:hover{border-color:var(--ink-soft)}
+  .opt input{margin:3px 0 0;accent-color:var(--stamp-green);flex:0 0 auto;width:16px;height:16px;cursor:pointer}
+  .opt.on{border-color:var(--stamp-green);background:var(--stamp-green-soft)}
+  .opt.off{opacity:.42;cursor:not-allowed}
+  .opt span{font-size:15px}
+  .counter{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);margin-top:12px}
+  .counter.full{color:var(--stamp-green);font-weight:500}
+
+  /* ---------- Escalas ---------- */
+  .scale{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:5px;margin-top:24px}
+  .scale button{min-width:0;width:100%;height:52px;padding:0;border:1px solid var(--line);background:#fff;
+    border-radius:var(--radius);font-family:'IBM Plex Mono',monospace;font-size:16px;color:var(--ink);cursor:pointer;transition:.12s}
+  .scale button:hover{border-color:var(--ink-soft)}
+  .scale button.on{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:500}
+  .scale[data-pts="5"]{gap:8px}
+  .scale[data-pts="5"] button{height:60px;font-size:18px}
+  @media(max-width:560px){.scale{gap:4px}.scale button{height:46px;font-size:14px}}
+  @media(max-width:380px){.scale button{font-size:12.5px}}
+  .scale-ends{display:flex;justify-content:space-between;gap:16px;font-size:12.5px;color:var(--ink-soft);margin-top:10px}
+  .scale-ends span{max-width:22ch}
+  .scale-ends span:last-child{text-align:right}
+
+  /* ---------- Campos ---------- */
+  label.field{display:block;margin-top:18px}
+  label.field .lab{font-size:11.5px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;
+    letter-spacing:.03em;margin-bottom:5px;display:block}
+  input[type=text],input[type=email],input[type=password],textarea{
+    width:100%;font-family:'Inter',sans-serif;font-size:15.5px;color:var(--ink);background:#fff;
+    border:1px solid var(--line);border-radius:8px;padding:11px 13px;resize:vertical}
+  input:focus,textarea:focus{outline:none;border-color:var(--stamp-amber);box-shadow:0 0 0 3px rgba(184,134,43,.15)}
+  textarea{min-height:130px;line-height:1.5}
+  .inline-other{margin:2px 0 6px 27px;max-width:440px}
+  .inline-other input{padding:9px 12px;font-size:14.5px}
+
+  /* ---------- Ações ---------- */
+  .nav{display:flex;align-items:center;gap:12px;margin-top:16px}
+  .nav.centro{justify-content:center;margin-top:26px}
+  .btn{font-family:'Inter',sans-serif;font-weight:600;font-size:14px;border-radius:8px;
+    padding:12px 22px;cursor:pointer;border:1px solid transparent;white-space:nowrap}
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn[disabled]{opacity:.4;cursor:not-allowed}
+  .btn-primary[disabled]:hover{background:var(--ink)}
+  .btn-primary:hover{background:var(--ink-soft)}
+  .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--ink-soft)}
+  .btn-ghost:hover{color:var(--ink);border-color:var(--ink-soft)}
+  .btn-line{background:#fff;border-color:var(--line);color:var(--ink)}
+  .btn-line:hover{border-color:var(--ink-soft)}
+  :focus-visible{outline:2px solid var(--stamp-amber);outline-offset:2px}
+  .err{display:none;margin-top:14px;font-size:13.5px;color:var(--stamp-red);font-weight:500;
+    background:var(--stamp-red-soft);border-radius:8px;padding:9px 12px}
+  .err.show{display:block}
+  .hint{font-size:12.5px;color:var(--stamp-gray);margin-top:14px}
+
+  .final .mark{width:42px;height:42px;border-radius:50%;background:var(--stamp-green);display:flex;
+    align-items:center;justify-content:center;color:#fff;font-size:20px;margin-bottom:18px}
+
+  footer{max-width:860px;margin:16px auto 0;padding:0 24px;display:flex;justify-content:space-between;
+    gap:12px;font-size:12px;color:var(--stamp-gray)}
+  footer button{background:none;border:none;font:inherit;color:var(--stamp-gray);cursor:pointer;padding:0;text-decoration:underline}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="app-header">
+    <img class="brand-logo" alt="Insider" src="data:image/png;base64,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">
+    <div>
+      <p class="brand-title">Sua jornada no Insider</p>
+    </div>
+  </header>
+
+  <div class="andamento">
+    <span class="sub" id="count"></span>
+  </div>
+
+  <main class="card" id="app" tabindex="-1"><p class="help">Carregando o formulário…</p></main>
+</div>
+
+<footer>
+  <span>Gestão Insider — Grupo IGD</span>
+  <span></span>
+</footer>
+
+<script>
+/* ---------------- conteúdo da pesquisa ---------------- */
+const Q = {
+  q1:{n:1,t:'single',title:'Quando você entrou no Insider, qual era o PRINCIPAL resultado que queria alcançar?',
+    opts:['Fazer meu primeiro lançamento','Aumentar o faturamento dos meus lançamentos','Encontrar/validar meu nicho, avatar ou oferta','Criar ou validar meu produto','Crescer minha audiência','Melhorar minha estratégia de vendas','Estruturar melhor meu negócio digital','Montar ou desenvolver meu time','Ter mais clareza sobre o próximo passo','Sair da estagnação e voltar a crescer'],other:true},
+
+  q2:{n:2,t:'scale',title:'Pensando em como você chegou ao Insider e em como está hoje, quanto você acredita que evoluiu?',
+    left:'Sinto que ainda estou praticamente no mesmo lugar',right:'Minha realidade mudou muito desde que entrei',
+    help:'Não pense apenas em faturamento. Considere também clareza, conhecimento, execução, confiança, decisões tomadas, estrutura e maturidade do seu negócio.'},
+
+  q3:{n:3,t:'multi',title:'Às vezes estamos tão focados no próximo resultado que esquecemos o quanto já avançamos. Quais dessas vitórias você já conquistou desde que entrou no Insider?',
+    help:'Marque todas que fizerem sentido para você.',
+    opts:['Tive mais clareza sobre meu nicho/avatar','Defini ou melhorei minha oferta','Criei ou melhorei meu produto','Comecei a produzir conteúdo com mais estratégia','Aumentei minha audiência','Fiz algo que vinha adiando há muito tempo','Realizei meu primeiro lançamento','Fiz um novo lançamento','Aumentei minhas vendas','Aumentei meu faturamento','Tive meu maior faturamento até hoje','Melhorei minha conversão','Aprendi a analisar melhor meus números','Organizei melhor meu negócio','Comecei a montar/delegar para um time','Passei a tomar decisões com mais segurança','Ganhei mais clareza sobre o que fazer a seguir','Conheci pessoas que contribuíram para meu negócio','Fiz parcerias ou conexões dentro da comunidade','Superei uma trava ou insegurança importante','Voltei a executar depois de um período parado','Ainda não consigo identificar uma conquista concreta'],other:true},
+
+  q4:{n:4,t:'open',title:'De todas essas evoluções, qual conquista mais te deixa orgulhoso até aqui?',
+    help:'Pode ser um grande resultado ou uma pequena vitória que representou muito para você.',ph:'Conte em poucas linhas…'},
+
+  q5:{n:5,t:'multi',max:3,title:'O que mais contribuiu para a sua evolução dentro do Insider?',
+    help:'Escolha até 3.',
+    opts:['Navegador','Diagnóstico Individual','Mentorias/encontros ao vivo','Aulas da área de membros','Conteúdos e frameworks','Comunidade Insider','Troca com outros Insiders','Eventos/encontros presenciais','Aplicação da Fórmula de Lançamento','Acompanhamento e direcionamento','Networking e conexões','Ver exemplos/resultados de outros Insiders','Minha própria execução a partir do que aprendi'],other:true},
+
+  q6:{n:6,t:'single',title:'Pensando na sua experiência até aqui, qual entrega do Insider você considera INDISPENSÁVEL?',
+    opts:['Diagnóstico Individual','Design Dedicado','Peixe Assado','SNA','Checkup de Lançamento','Análise de Lançamento','Plantões de Dúvidas','Plantões de Tráfego','Plantões de Parcerias','Aulas da Área de Membros','DCA','Desafios de Lançamento','Comunidade Insider','Encontros presenciais'],other:true},
+
+  q6b:{n:'6B',t:'open',short:true,title:'O que faz essa entrega ser tão importante para você?',ph:'Em uma ou duas frases…'},
+
+  q7:{n:7,t:'open',short:true,title:'O que você considera que seja a sua maior dificuldade nesse momento?',ph:'Em poucas linhas…'},
+
+  q8:{n:8,t:'single',title:'Qual é o PRINCIPAL resultado que você quer alcançar nos próximos 12 meses?',
+    opts:['Fazer meu primeiro lançamento semente','Fazer lançamentos com mais consistência','Aumentar meu faturamento','Atingir 6 dígitos','Escalar um produto que já funciona','Atingir 7 dígitos','Criar/validar uma nova oferta','Crescer minha audiência','Construir um negócio mais previsível','Estruturar meu time','Me tornar menos dependente da operação','Melhorar minha margem/lucro','Construir uma esteira de produtos'],other:true,
+    detail:'Quer detalhar esse objetivo? (opcional)'},
+
+  q9:{n:9,t:'multi',max:3,title:'Hoje, o que mais está te impedindo de chegar nesse próximo nível?',help:'Escolha até 3.',
+    opts:['Falta de clareza estratégica','Falta de execução','Falta de tempo','Falta de consistência','Audiência pequena','Dificuldade de produzir conteúdo','Oferta/produto','Copy/comunicação','Tráfego','Vendas/conversão','Gestão dos números','Equipe','Processos','Organização','Insegurança ou medo de errar','Dificuldade de tomar decisões sozinho','Falta de acompanhamento/cobrança','Ainda não sei exatamente o que está me impedindo'],other:true},
+
+  q10:{n:10,t:'multi',max:3,title:'Em quais áreas você gostaria de receber MAIS ajuda do Insider daqui para frente?',help:'Escolha até 3.',
+    opts:['Estratégia de lançamento','Oferta','Nicho/avatar','Produtos','Conteúdo e audiência','Instagram/redes sociais','Copy','Tráfego pago','Vendas/conversão','Métricas e números','IA aplicada ao negócio','Gestão','Liderança','Montagem de equipe','Processos','Escala','Organização e execução','Accountability/acompanhamento','Networking','Estudos de caso de outros Insiders'],other:true},
+
+  q11:{n:11,t:'open',title:'Se você pudesse mudar, adicionar ou melhorar UMA única coisa no Insider para acelerar seus resultados, o que seria?',
+    help:'Se só pudéssemos escolher UMA melhoria a partir da sua resposta, qual deveria ser?',ph:'Escreva a mudança que faria mais diferença…'},
+
+  q12:{n:12,t:'scale',title:'De 0 a 10, o quanto você recomendaria o Insider para alguém que quer construir ou crescer um negócio digital?',
+    left:'Não recomendaria',right:'Recomendaria com certeza'},
+
+  q12b:{n:'12B',t:'open',short:true,title:'O que mais pesou para você dar essa nota?',
+    help:'Sobre a nota que você deu ao Insider.',ph:'Em poucas palavras…'},
+
+  q13:{n:13,t:'scale',min:1,to:5,title:'De 1 a 5, o quanto você está satisfeito com a Mentoria Insider?',
+    left:'Nada satisfeito',right:'Muito satisfeito'},
+
+  q13b:{n:'13B',t:'open',short:true,title:'O que mais pesou para você dar essa nota?',
+    help:'Sobre a sua satisfação com a Mentoria Insider.',ph:'Em poucas palavras…'},
+
+  q14:{n:14,t:'single',title:'Pensando nos próximos 12 meses, qual dessas frases mais representa o momento que você está vivendo?',
+    opts:['Ainda tenho muito para construir e quero continuar avançando com o apoio do Insider.',
+          'Vejo valor em continuar minha jornada no Insider, mas existem alguns pontos que preciso avaliar.',
+          'Ainda não tenho clareza sobre qual será meu próximo passo.',
+          'Sinto que aproveitei bastante minha jornada, mas ainda não sei se o Insider fará parte do meu próximo ciclo.',
+          'Sinto que concluí o ciclo que precisava dentro do Insider neste momento.']},
+
+  q14b:{n:'14B',t:'multi',max:2,title:'O que mais pesa nessa decisão hoje?',help:'Escolha até 2.',
+    opts:['Investimento financeiro','Ainda não tive o resultado que esperava','Não consegui aproveitar o Insider como gostaria','Falta de tempo','Estou em outro momento do negócio','Ainda não enxergo claramente o que teria para avançar em um próximo ciclo','Preciso primeiro executar o que já aprendi','Algumas entregas não atenderam minhas expectativas','Estou avaliando outras prioridades','Ainda não pensei sobre isso'],other:true},
+
+  q15:{n:15,t:'open',title:'Para fechar: imagine que daqui a 12 meses você olhe para trás e pense… “Continuar essa jornada foi uma das melhores decisões que tomei para o meu negócio.” O que precisaria ter acontecido para você sentir isso?',
+    ph:'Descreva o cenário que faria você pensar isso…'}
+};
+
+const SCREENS = [
+  {id:'abertura',kind:'intro'},
+  {id:'ident',kind:'ident'},
+  'q1','q2','q3','q4','q5','q6','q6b','q7',
+  {id:'meio',kind:'interlude',stage:'Próximo capítulo',
+   title:'Agora que você olhou para o caminho que já percorreu, queremos olhar para o próximo. 🔭',
+   body:['Porque evolução não é apenas perceber o quanto já avançamos.','É também ter clareza sobre onde queremos chegar.']},
+  'q8','q9','q10','q11','q12','q12b','q13','q13b',
+  {id:'meio2',kind:'interlude',stage:'Reta final',
+   title:'Estamos quase terminando. ⏳',
+   body:['Você já relembrou de onde saiu, reconheceu suas conquistas e definiu onde quer chegar.','Agora queremos entender como você enxerga o próximo capítulo dessa jornada.']},
+  'q14','q14b','q15',
+  {id:'fim',kind:'final'}
+];
+
+/* ---------------- estado ---------------- */
+const A = {nome:'',email:'',respostas:{}};
+let i = 0, mem = [];
+let app;   // resolvido em iniciar(), porque o script pode rodar antes do corpo da página
+const norm = s => (typeof s==='string') ? {id:s,kind:'q',...Q[s]} : s;
+const visible = s => !(s.id==='q14b' && A.respostas.q14 && A.respostas.q14.value === Q.q14.opts[0]);
+const questionIds = SCREENS.map(norm).filter(s=>s.kind==='q').map(s=>s.id);
+/* Numeração corrida (1, 2, 3…), calculada na hora: perguntas puladas não deixam buraco. */
+const idsVisiveis = ()=> questionIds.filter(id=>visible(norm(id)));
+const numeroDa = id => idsVisiveis().indexOf(id)+1;
+
+/* ---------------- envio das respostas ---------------- */
+/* Endereço do Apps Script ligado à planilha da equipe. Para trocar de planilha,
+   basta publicar um novo App da Web e substituir esta linha. */
+const ENDPOINT = 'https://script.google.com/a/macros/grupoigd.com.br/s/AKfycbxBqlzjWFLxJ5QHWgefjKxB1aVyrKfPVhNYTVvY8urjOkVzzIN5-1tFy04wG3a86N7PHg/exec';
+
+/* Sem limite de tempo, uma chamada que nunca responde deixa a tela parada. */
+function comLimite(promessa, ms){
+  return Promise.race([promessa, new Promise((_,rej)=>setTimeout(()=>rej(new Error('tempo esgotado')), ms))]);
+}
+
+/* Monta a linha da planilha: rótulos e valores na mesma ordem. */
+function linhaDaPlanilha(entry){
+  const colunas = ['Nome','E-mail','Enviado em'];
+  const valores = [entry.nome, entry.email, new Date(entry.enviadoEm).toLocaleString('pt-BR')];
+  Object.keys(Q).forEach(k=>{
+    colunas.push(LABELS[k] || k);
+    const v = entry.respostas[k];
+    valores.push(
+      v == null ? '' :
+      Array.isArray(v) ? v.join(' | ') :
+      (typeof v === 'object' ? v.resposta + (v.detalhe ? ' | detalhe: '+v.detalhe : '') : v)
+    );
+  });
+  return {email: entry.email, colunas, valores};
+}
+
+async function saveOne(entry){
+  mem.push(entry);
+  const corpo = JSON.stringify(linhaDaPlanilha(entry));
+  try{
+    // text/plain evita a requisição de verificação que o Apps Script não responde.
+    const r = await comLimite(fetch(ENDPOINT, {
+      method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:corpo, redirect:'follow'
+    }), 15000);
+    const j = await r.json();
+    return !!j.ok;
+  }catch(e){
+    // Se a resposta não pôde ser lida, envia mais uma vez às cegas: a linha chega
+    // à planilha mesmo sem confirmação, e é melhor gravar do que perder.
+    try{ await fetch(ENDPOINT, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:corpo}); }catch(e2){}
+    return false;
+  }
+}
+
+async function emailJaRespondeu(email){
+  try{
+    const r = await comLimite(fetch(ENDPOINT + '?email=' + encodeURIComponent(email)), 8000);
+    const j = await r.json();
+    return !!j.existe;
+  }catch(e){ return false; }   // na dúvida, deixa responder
+}
+
+/* Rascunho no próprio navegador de quem responde: se a aba fechar no meio,
+   o formulário volta na mesma pergunta. Fica só na máquina da pessoa e some
+   quando ela conclui. Em janela anônima o navegador pode recusar — daí o try. */
+const CHAVE_RASCUNHO = 'jornada_insider_rascunho_v3';
+function lerRascunho(){
+  try{ return JSON.parse(localStorage.getItem(CHAVE_RASCUNHO)); }catch(e){ return null; }
+}
+function saveDraft(){
+  try{ localStorage.setItem(CHAVE_RASCUNHO, JSON.stringify({A,i})); }catch(e){}
+}
+function clearDraft(){
+  try{ localStorage.removeItem(CHAVE_RASCUNHO); }catch(e){}
+}
+
+/* ---------------- trajetória ---------------- */
+let last = null;
+function paint(p, stage){
+  last = {p, stage};
+  const r = document.getElementById('stage');
+  if(r) r.textContent = stage;
+}
+
+/* ---------------- render ---------------- */
+function el(tag, cls, html){ const e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; }
+
+function render(){
+  const s = norm(SCREENS[i]);
+  if(s.kind==='q' && !visible(s)){ i += (dir>=0?1:-1); return render(); }
+  app.innerHTML = '';
+  const done = questionIds.slice(0, s.kind==='q'?questionIds.indexOf(s.id):(i===0||s.id==='ident'?0:questionIds.length)).length;
+  const total = idsVisiveis().length;
+  let p = s.kind==='final' ? 1 : (s.kind==='q' ? (numeroDa(s.id)-1)/total : (i<2?0.02:done/total));
+  const stages = {intro:'Início da jornada',ident:'Início da jornada',final:'Jornada registrada'};
+  paint(Math.max(p,.02), s.stage || stages[s.kind] || (questionIds.indexOf(s.id)<7?'Olhando para trás':'Olhando para frente'));
+  document.getElementById('count').textContent = s.kind==='q' ? `Pergunta ${numeroDa(s.id)} de ${total}` : '';
+
+  if(s.kind==='intro') return intro(s);
+  if(s.kind==='ident') return ident(s);
+  if(s.kind==='interlude') return interlude(s);
+  if(s.kind==='final') return final();
+  return question(s);
+}
+
+function nav(nextLabel, onNext, showBack=true){
+  const n = el('div','nav' + (showBack ? '' : ' centro'));   // tela de abertura: botão centralizado
+  const b = el('button','btn btn-primary', nextLabel);
+  b.onclick = onNext; n.appendChild(b);
+  if(showBack){ const k = el('button','btn btn-ghost','Voltar'); k.onclick=()=>go(-1); n.appendChild(k); }
+  app.appendChild(n);
+  return b;
+}
+
+function intro(){
+  app.appendChild(el('h1',null,'Você já percorreu uma parte importante da sua jornada no Insider! <span class="foguete">🚀</span>'));
+  const l = el('div','lead');
+  l.innerHTML = `<p>Queremos te convidar a fazer algo que nem sempre fazemos no dia a dia: <strong>olhar para trás e perceber o quanto você já avançou.</strong></p>
+  <p>Grandes resultados importam. Mas pequenas vitórias também contam: uma decisão tomada, uma oferta criada, uma aula aplicada, mais clareza, uma conversa que destravou algo, uma campanha que finalmente saiu do papel.</p>
+  <p>Queremos entender <strong>o que mudou desde que você entrou</strong>, <strong>onde você está agora</strong> e <strong>o que precisa acontecer para você chegar ao seu próximo nível</strong>.</p>
+  <p>Suas respostas também vão nos ajudar a construir um Insider cada vez melhor para a sua jornada.</p>
+  <p><strong>Leva poucos minutos. Vamos lá?</strong></p>`;
+  app.appendChild(l);
+  nav('Clique aqui!', ()=>{ confete(); go(1); }, false);
+}
+
+function interlude(s){
+  app.appendChild(el('h1',null,s.title));
+  const l = el('div','lead'); s.body.forEach(t=>l.appendChild(el('p',null,t)));
+  app.appendChild(l);
+  nav('Continuar', ()=>go(1));
+}
+
+function ident(){
+  app.appendChild(el('h2',null,'Antes de começar, quem está respondendo?'));
+  app.appendChild(el('p','help','Use o mesmo nome e e-mail cadastrados na mentoria — é assim que conectamos suas respostas ao seu acompanhamento.'));
+
+  const f1 = el('label','field'); f1.innerHTML = '<span class="lab">Nome completo</span>';
+  const nome = el('input'); nome.type='text'; nome.value=A.nome; nome.placeholder='Seu nome'; nome.autocomplete='name';
+  f1.appendChild(nome); app.appendChild(f1);
+
+  const f2 = el('label','field'); f2.innerHTML = '<span class="lab">E-mail cadastrado na mentoria</span>';
+  const mail = el('input'); mail.type='email'; mail.value=A.email; mail.placeholder='voce@email.com'; mail.autocomplete='email';
+  f2.appendChild(mail); app.appendChild(f2);
+
+  const err = el('p','err'); app.appendChild(err);
+  const btn = nav('Continuar', async ()=>{
+    A.nome = nome.value.trim(); A.email = mail.value.trim().toLowerCase();
+    if(A.nome.length < 2){ show(err,'Escreva seu nome para continuar.'); nome.focus(); return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(A.email)){ show(err,'Confira o e-mail: parece incompleto.'); mail.focus(); return; }
+    btn.disabled = true; btn.textContent = 'Verificando…';
+    const repetido = await emailJaRespondeu(A.email);
+    btn.disabled = false; btn.textContent = 'Continuar';
+    if(repetido){ telaJaRespondeu(); return; }
+    go(1);
+  });
+  nome.focus();
+}
+
+function telaJaRespondeu(){
+  app.innerHTML = '';
+  app.appendChild(el('h2',null,'Já recebemos a sua resposta'));
+  app.appendChild(el('p','help','Este e-mail já consta na pesquisa, e cada Insider responde uma vez só. Se você acredita que houve um engano, ou se quer revisar o que respondeu, fale com a equipe do Insider.'));
+  const n = el('div','nav');
+  const b = el('button','btn btn-ghost','Usar outro e-mail');
+  b.onclick = ()=>render();
+  n.appendChild(b); app.appendChild(n);
+}
+
+/* Confete em canvas próprio: sem biblioteca, some sozinho e não bloqueia clique. */
+function confete(){
+  const cores = ['#B8862B','#2F6B4F','#A23B2E','#E3BE7C','#1E2342'];
+  const cv = document.createElement('canvas');
+  cv.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:100';
+  cv.width = innerWidth; cv.height = innerHeight;
+  document.body.appendChild(cv);
+  const ctx = cv.getContext('2d');
+  const pecas = Array.from({length:140}, ()=>({
+    x: cv.width*(.2+Math.random()*.6), y: cv.height*.45 - Math.random()*120,
+    vx:(Math.random()-.5)*9, vy:-(6+Math.random()*9),
+    l:5+Math.random()*7, a:Math.random()*Math.PI, va:(Math.random()-.5)*.35,
+    cor: cores[(Math.random()*cores.length)|0]
+  }));
+  const inicio = performance.now();
+  (function quadro(t){
+    const dec = t - inicio;
+    ctx.clearRect(0,0,cv.width,cv.height);
+    pecas.forEach(p=>{
+      p.vy += .28; p.x += p.vx; p.y += p.vy; p.a += p.va; p.vx *= .995;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.a);
+      ctx.globalAlpha = Math.max(0, 1 - dec/2600);
+      ctx.fillStyle = p.cor; ctx.fillRect(-p.l/2,-p.l/3,p.l,p.l*.62);
+      ctx.restore();
+    });
+    if(dec < 2600) requestAnimationFrame(quadro); else cv.remove();
+  })(inicio);
+}
+
+function show(err,msg){ err.textContent=msg; err.classList.add('show'); }
+
+function question(s){
+  const r = A.respostas[s.id] || {};
+  app.appendChild(el('div','qnum','Pergunta '+numeroDa(s.id)));
+  app.appendChild(el('h2',null,s.title));
+  if(s.help) app.appendChild(el('p','help',s.help));
+  const err = el('p','err');
+
+  if(s.t==='scale'){
+    let val = r.value ?? null;
+    const box = el('div','scale');
+    const from = s.min ?? 0, to = s.to ?? 10;
+    box.dataset.pts = (to-from+1);
+    for(let k=from;k<=to;k++){
+      const b = el('button',null,k);
+      if(val===k) b.classList.add('on');
+      b.onclick = ()=>{ val=k; [...box.children].forEach(c=>c.classList.remove('on')); b.classList.add('on'); travar(); };
+      box.appendChild(b);
+    }
+    app.appendChild(box);
+    const ends = el('div','scale-ends'); ends.innerHTML = `<span>${s.min ?? 0} — ${s.left}</span><span>${s.to ?? 10} — ${s.right}</span>`;
+    app.appendChild(ends);
+    const aviso = el('p','hint','Escolha uma nota para continuar.');
+    app.appendChild(aviso); app.appendChild(err);
+    const btn = nav('Continuar', ()=>{ if(val===null) return; A.respostas[s.id]={value:val}; go(1); });
+    function travar(){ const ok = val!==null; btn.disabled = !ok; aviso.style.display = ok ? 'none' : ''; }
+    travar();
+    return;
+  }
+
+  if(s.t==='open'){
+    const t = el('textarea'); t.placeholder = s.ph||''; t.value = r.value||'';
+    if(s.short) t.style.minHeight='90px';
+    app.appendChild(t);
+    const aviso = el('p','hint', s.optional ? 'Pode pular se preferir.' : 'Escreva sua resposta para continuar.');
+    app.appendChild(aviso); app.appendChild(err);
+    const btn = nav('Continuar', ()=>{
+      const v = t.value.trim();
+      if(!v && !s.optional) return;
+      A.respostas[s.id]={value:v}; go(1);
+    });
+    function travar(){
+      const ok = s.optional || !!t.value.trim();
+      btn.disabled = !ok;
+      if(!s.optional) aviso.style.display = ok ? 'none' : '';
+    }
+    t.oninput = travar; travar();
+    t.focus();
+    return;
+  }
+
+  /* single / multi */
+  const multi = s.t==='multi';
+  let sel = multi ? new Set(r.raw||[]) : (r.raw||null);   // guarda a opção crua, não o texto já formatado
+  let otherTxt = r.other||'';
+  let detailTxt = r.detail||'';
+  const box = el('div','options');
+  const items = [...s.opts, ...(s.other?['__other__']:[])];
+  if(items.length >= 10 && s.opts.every(o=>o.length <= 64)) box.classList.add('grid');
+  const counter = s.max ? el('p','counter') : null;
+
+  function refresh(){
+    [...box.children].forEach(node=>{
+      if(!node.dataset.v) return;
+      const v = node.dataset.v;
+      const on = multi ? sel.has(v) : sel===v;
+      node.classList.toggle('on', on);
+      node.querySelector('input').checked = on;
+      const full = s.max && multi && sel.size>=s.max && !on;
+      node.classList.toggle('off', !!full);
+      node.querySelector('input').disabled = !!full;
+    });
+    const oth = document.getElementById('otherwrap');
+    if(oth) oth.style.display = (multi ? sel.has('__other__') : sel==='__other__') ? 'block' : 'none';
+    if(counter){ counter.textContent = `${sel.size} de ${s.max} selecionadas`; counter.classList.toggle('full', sel.size>=s.max); }
+    travar();
+  }
+
+  /* Sem resposta válida, o botão Continuar fica bloqueado. */
+  function travar(){
+    if(!btn) return;
+    const temAlgo = multi ? sel.size>0 : !!sel;
+    const outroVazio = (multi ? sel.has('__other__') : sel==='__other__') && !otherTxt.trim();
+    const ok = temAlgo && !outroVazio;
+    btn.disabled = !ok;
+    aviso.textContent = !temAlgo
+      ? (multi ? 'Selecione ao menos uma opção para continuar.' : 'Escolha uma opção para continuar.')
+      : 'Descreva sua opção no campo ao lado de “Outro”.';
+    aviso.style.display = ok ? 'none' : '';
+  }
+
+  items.forEach(v=>{
+    const lab = el('label','opt'); lab.dataset.v = v;
+    const inp = el('input'); inp.type = multi?'checkbox':'radio'; inp.name = s.id;
+    lab.appendChild(inp);
+    lab.appendChild(el('span',null, v==='__other__' ? 'Outro' : v));
+    inp.onchange = ()=>{
+      if(multi){
+        if(inp.checked){ if(sel.size < (s.max||99)) sel.add(v); else inp.checked = false; }
+        else sel.delete(v);
+      } else sel = v;
+      refresh();
+      if((multi ? sel.has('__other__') : sel==='__other__')){
+        const oi = document.querySelector('#otherwrap input'); if(oi) oi.focus();
+      }
+    };
+    box.appendChild(lab);
+    if(v==='__other__'){
+      const w = el('div','inline-other'); w.id='otherwrap'; w.style.display='none';
+      const oi = el('input'); oi.type='text'; oi.placeholder='Qual?'; oi.value=otherTxt;
+      oi.oninput = ()=>{ otherTxt = oi.value; travar(); };
+      w.appendChild(oi); box.appendChild(w);
+    }
+  });
+  app.appendChild(box);
+  if(counter) app.appendChild(counter);
+
+  let btn = null, detailInput = null;
+  if(s.detail){
+    const f = el('label','field'); f.innerHTML = `<span class="lab">${s.detail}</span>`;
+    detailInput = el('input'); detailInput.type='text'; detailInput.value=detailTxt;
+    detailInput.placeholder='Ex.: chegar a R$ 100 mil em 7 dias';
+    f.appendChild(detailInput); app.appendChild(f);
+  }
+  const aviso = el('p','hint');
+  app.appendChild(aviso); app.appendChild(err);
+
+  btn = nav('Continuar', ()=>{
+    const temAlgo = multi ? sel.size>0 : !!sel;
+    const hasOther = multi ? sel.has('__other__') : sel==='__other__';
+    if(!temAlgo || (hasOther && !otherTxt.trim())) return;
+    const clean = v => v==='__other__' ? ('Outro: '+otherTxt.trim()) : v;
+    A.respostas[s.id] = multi
+      ? {value:[...sel].map(clean), raw:[...sel], other:otherTxt}
+      : {value:clean(sel), raw:sel, other:otherTxt};
+    if(detailInput) A.respostas[s.id].detail = detailInput.value.trim();
+    go(1);
+  });
+  refresh();
+}
+
+function final(){
+  app.classList.add('final');
+  app.appendChild(el('div','mark','✓'));
+  app.appendChild(el('h1',null,'Obrigado por olhar para a sua jornada com a gente. 💙'));
+  const l = el('div','lead');
+  l.innerHTML = `<p>Muitas vezes estamos tão concentrados no próximo objetivo que esquecemos de reconhecer tudo que já construímos no caminho.</p>
+  <p>Cada lançamento, cada decisão, cada aprendizado e até cada pequena vitória faz parte da construção do negócio que você quer ter.</p>
+  <p>Suas respostas vão nos ajudar a tornar o Insider ainda melhor para aquilo que mais importa: ajudar você a continuar avançando.</p>
+  <p><strong>Nos vemos no próximo passo!</strong></p>`;
+  app.appendChild(l);
+  const st = el('p','hint', savedOk ? 'Respostas registradas em nome de '+A.nome+'.' : 'Registrando suas respostas…');
+  app.appendChild(st);
+  confete();
+}
+
+/* ---------------- navegação ---------------- */
+let dir = 1, savedOk = false, lastEntry = null;
+function go(d){
+  dir = d; i += d;
+  if(i < 0) i = 0;
+  const s = norm(SCREENS[i]);
+  if(s.kind==='final' && !lastEntry) submit();
+  app.classList.remove('final');
+  try{ render(); }
+  catch(e){ mostrarFalha(e); }
+  saveDraft();
+  window.scrollTo({top:0,behavior:'smooth'});
+  app.focus({preventScroll:true});
+}
+
+/* ---------------- start ---------------- */
+/* Espera o corpo da página existir antes de procurar os elementos e desenha a
+   primeira tela na hora. Qualquer falha aparece na tela, em vez de deixar o
+   cartão vazio. */
+function iniciar(){
+  app = document.getElementById('app');
+  if(!app){ document.body.insertAdjacentHTML('beforeend','<p style="padding:20px">Não foi possível montar o formulário nesta tela.</p>'); return; }
+
+  // Retoma o rascunho, e só se a tela ainda existir nesta versão do formulário.
+  const d = lerRascunho();
+  if(d && d.i > 1){
+    const tela = SCREENS[d.i];
+    if(tela && (typeof tela !== 'string' || Q[tela])){ Object.assign(A, d.A||{}); i = d.i; }
+    else clearDraft();
+  }
+
+  try{ render(); }
+  catch(e){ mostrarFalha(e); }
+}
+
+function mostrarFalha(e){
+  console.error(e);
+  if(!app) return;
+  app.innerHTML = '';
+  app.appendChild(el('h2',null,'Não conseguimos abrir esta tela'));
+  app.appendChild(el('p','help','Detalhe técnico: '+(e && e.message ? e.message : e)));
+  const n = el('div','nav');
+  const b = el('button','btn btn-primary','Começar do início');
+  b.onclick = ()=>{ clearDraft(); i = 0; A.respostas = {}; try{ render(); }catch(err){ mostrarFalha(err); } };
+  n.appendChild(b); app.appendChild(n);
+}
+
+window.addEventListener('error', ev=>{ if(app && !app.children.length) mostrarFalha(ev.error || new Error(ev.message)); });
+
+if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar);
+else iniciar();
+
+</script>
